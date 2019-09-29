@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Group;
+use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupCollection;
@@ -41,7 +41,7 @@ class GroupController extends Controller
             'group_name' => 'required|max:255',
         ]);
 
-        $group = Group::create($request->all);
+        $group = Group::create($request->all());
 
         return (new GroupResource($group))
             ->response()
