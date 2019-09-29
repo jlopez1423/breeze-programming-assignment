@@ -9,4 +9,11 @@ class Group extends Model
     protected $fillable = [
         'group_name'
     ];
+
+    /**
+     * Get the persons for the group
+     */
+    public function persons() {
+        return $this->hasMany('App\Models\Person');
+    }
 }

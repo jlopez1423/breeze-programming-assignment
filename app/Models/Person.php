@@ -10,6 +10,14 @@ class Person extends Model
         'first_name',
         'last_name',
         'email_address',
-        'status'
+        'status',
     ];
+
+    /**
+     * Get the Group that the Person belongs to
+     */
+    public function group()
+    {
+        return $this->belongsTo('App\Models\Group');
+    }
 }
