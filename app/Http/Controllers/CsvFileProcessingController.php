@@ -55,8 +55,8 @@ class CsvFileProcessingController extends Controller
 
             $result[] = $cleaned_row;
         }
+        Storage::disk('local')->delete('file.csv');
 
-        // delete temporary file
         return $result;
     }
 
