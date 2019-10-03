@@ -40,10 +40,12 @@ class PeopleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id'            => 'required',
             'first_name'    => 'required|max:255',
             'last_name'     => 'required|max:255',
             'email_address' => 'required|email',
-            'status'        => Rule::in(['active', 'archived'])
+            'status'        => Rule::in(['active', 'archived']),
+            'group_id'      => 'required',
         ]);
 
         $person = Person::create($request->all());

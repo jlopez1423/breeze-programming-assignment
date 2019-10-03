@@ -15,3 +15,4 @@ use Illuminate\Http\Request;
 
 Route::resource('people', 'PeopleController');
 Route::resource('group', 'GroupController');
+Route::post('csv/upload', 'CsvFileProcessingController@upload');
