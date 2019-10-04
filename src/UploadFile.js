@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Button, Message, Form } from 'semantic-ui-react'
+import ResultsList from "./ResultsList";
 
 class UploadFile extends Component {
     constructor(props) {
@@ -42,17 +43,28 @@ class UploadFile extends Component {
                     csv_file: reader.result,
                 })
             })
-                .then(data => self.setState({ data: data.data }));
-
+                .then(response => response.json())
+                .then(data => self.setState({ data: data }));
         };
-
-        return 'success';
-        // return put(url, formData, config);
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.data.length > 0) {
+            console.log("we do make it here");
+            console.log(nextState);
+
+            return <ResultsList/>;
+        }
+    }
+
+
     render() {
-        // const { file } = this.state;
         let message = this.state.file === null ? "Choose File to Upload" : this.state.file.name;
+        let resultlist = null;
+
+        if(this.state.data.length > 0) {
+            resultlist = <ResultsList responseResults={this.state.data}/>;
+        }
 
         return (
             <Container>
@@ -74,6 +86,7 @@ class UploadFile extends Component {
                     </Form.Field>
                     <Button type="submit">Upload</Button>
                 </Form>
+                {resultlist}
             </Container>
         );
     }

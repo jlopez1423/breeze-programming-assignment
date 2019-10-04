@@ -8,13 +8,13 @@ class ResultsList extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8000/api/people")
-          .then(response => response.json())
-          .then(data => this.setState({ data: data.data }));
+        // fetch("http://localhost:8000/api/people")
+        //   .then(response => response.json())
+        //   .then(data => this.setState({ data: data.data }));
     }
 
     render() {
-        var data = this.state.data || [];
+        var data = this.props.responseResults;
 
         return (
             <Table celled padded>

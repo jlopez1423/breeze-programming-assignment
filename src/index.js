@@ -21,7 +21,7 @@ document.head.appendChild(styleLink);
 ReactDOM.render(
   <App>
       <UploadFile/>
-    <ResultsList />
+    {/*<ResultsList />*/}
   </App>,
   document.getElementById("root")
 );
