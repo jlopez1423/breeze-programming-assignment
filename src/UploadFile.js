@@ -7,7 +7,7 @@ class UploadFile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            data: {},
             file: null
         };
     }
@@ -49,25 +49,15 @@ class UploadFile extends Component {
         };
     };
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextState.data.length > 0) {
-            console.log("we do make it here");
-            console.log(nextState);
-
-            return <ResultsList/>;
-        }
-    }
-
-
     render() {
         let message = this.state.file === null ? "Choose File to Upload" : this.state.file.name;
         let resultlist = null;
 
-        if(this.state.data.length > 0) {
-            // resultlist = <ResultsList responseResults={this.state.data}/>;
-            resultlist = <GroupResultList responseResults={this.state.data}/>
+        if (typeof this.state.data.result !== 'undefined' && this.state.data.is_person_file) {
+            resultlist = <ResultsList responseResults={this.state.data.result}/>;
+        } else if (typeof this.state.data.result !== 'undefined' && this.state.data.is_group_file) {
+            resultlist = <GroupResultList responseResults={this.state.data.result}/>
         }
-
 
         return (
             <Container>
@@ -88,6 +78,7 @@ class UploadFile extends Component {
                         />
                     </Form.Field>
                     <Button type="submit">Upload</Button>
+                    <Button>View Groups</Button>
                 </Form>
                 {resultlist}
             </Container>

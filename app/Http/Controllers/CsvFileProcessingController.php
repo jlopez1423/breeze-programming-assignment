@@ -57,7 +57,10 @@ class CsvFileProcessingController extends Controller
         }
         Storage::disk('local')->delete('file.csv');
 
-        return response()->json($result);
+        return response()->json(['result'         => $result,
+                                 'is_person_file' => $is_person_file,
+                                 'is_group_file'  => $is_group_file,
+        ]);
     }
 
     public function typeOfFile($file_headers, $model_headers)
