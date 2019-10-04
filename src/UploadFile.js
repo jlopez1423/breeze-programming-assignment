@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Button, Message, Form } from 'semantic-ui-react'
 import ResultsList from "./ResultsList";
+import GroupResultList from "./GroupResultList";
 
 class UploadFile extends Component {
     constructor(props) {
@@ -63,8 +64,10 @@ class UploadFile extends Component {
         let resultlist = null;
 
         if(this.state.data.length > 0) {
-            resultlist = <ResultsList responseResults={this.state.data}/>;
+            // resultlist = <ResultsList responseResults={this.state.data}/>;
+            resultlist = <GroupResultList responseResults={this.state.data}/>
         }
+
 
         return (
             <Container>

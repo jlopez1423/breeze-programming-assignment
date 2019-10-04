@@ -14,7 +14,7 @@ class ResultsList extends Component {
     }
 
     render() {
-        var data = this.props.responseResults;
+        let data = this.props.responseResults;
 
         return (
             <Table celled padded>
