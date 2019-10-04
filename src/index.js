@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { Container, Header } from "semantic-ui-react";
 
 import ResultsList from "./ResultsList";
+import UploadFile from './UploadFile';
 
 const App = ({ children }) => (
   <Container style={{ margin: 20 }}>
