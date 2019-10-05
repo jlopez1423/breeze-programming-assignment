@@ -10,6 +10,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'email_address' => $faker->email,
+        'group_id'  => rand(),
         'status' => (bool)random_int(0, 1) ? 'active' : 'archived'
     ];
 });
