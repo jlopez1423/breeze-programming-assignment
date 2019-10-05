@@ -6,6 +6,7 @@ use App\Models\Group;
 use Illuminate\Http\Request;
 use App\Http\Resources\GroupResource;
 use App\Http\Resources\GroupCollection;
+use Illuminate\Database\Eloquent\Builder;
 
 class GroupController extends Controller
 {
@@ -16,7 +17,11 @@ class GroupController extends Controller
      */
     public function index()
     {
-        return new GroupCollection(Group::all());
+        $active_members_in_group = Group::with(['persons' => function ($query) {
+            $query->where('status', '=', 'active');
+        }])->get();
+
+        return new GroupCollection($active_members_in_group);
     }
 
     /**
