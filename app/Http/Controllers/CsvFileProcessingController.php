@@ -68,7 +68,13 @@ class CsvFileProcessingController extends Controller
 
     public function typeOfFile($file_headers, $model_headers)
     {
-        return array_map('trim', $file_headers) === $model_headers;
+        $trimmed_headers = array_map('trim', $file_headers);
+        foreach ($trimmed_headers as $trimmed_header) {
+            if (!in_array($trimmed_header, $model_headers)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function isPersonRecord($csv_person_id)
