@@ -8,13 +8,16 @@ class ResultsList extends Component {
     }
 
     componentDidMount() {
-        // fetch("http://localhost:8000/api/people")
-        //   .then(response => response.json())
-        //   .then(data => this.setState({ data: data.data }));
+        if (this.props.needData) {
+            console.log("destroyer I hardly know her");
+            fetch("http://localhost:8000/api/people")
+                .then(response => response.json())
+                .then(data => this.setState({data: data.data}));
+        }
     }
 
     render() {
-        let data = this.props.responseResults;
+        let data = typeof this.props.responseResults !== 'undefined' ? this.props.responseResults : this.state.data;
 
         return (
             <Table celled padded>

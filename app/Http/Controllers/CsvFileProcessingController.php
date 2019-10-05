@@ -13,12 +13,12 @@ use App\Models\Person;
 class CsvFileProcessingController extends Controller
 {
     const PERSON_FILE_HEADERS = ['id', 'first_name', 'last_name', 'email_address', 'status', 'group_id'];
-    const GROUP_FILE_HEADERS = ['id', 'group_name'];
+    const GROUP_FILE_HEADERS  = ['id', 'group_name'];
 
     public function upload(Request $request)
     {
         $request->validate([
-            'csv_file' => 'required'
+            'csv_file' => 'required',
         ]);
 
         Storage::disk('local')->put('file.csv', $request->get('csv_file'));
@@ -38,18 +38,20 @@ class CsvFileProcessingController extends Controller
             if ($is_person_file) {
                 // if exists -- update
                 if ($this->isPersonRecord($cleaned_row['id'])) {
-                    $person = Person::find($cleaned_row['id']);
-                    unset($cleaned_row['id']);
-                    $person->update($cleaned_row);
-                    $result[] = $cleaned_row;
+                    $person = new Person();
+                    $result[] = $this->updateRecord($person, $cleaned_row);
                     continue;
                 }
-
-                $person = Person::create($cleaned_row);
+                Person::create($cleaned_row);
             }
 
             // check if is group file
             if ($is_group_file) {
+                if ($this->isGroupRecord($cleaned_row['id'])) {
+                    $group = new Group();
+                    $result[] = $this->updateRecord($group, $cleaned_row);
+                    continue;
+                }
                 Group::create($cleaned_row);
             }
 
@@ -57,9 +59,10 @@ class CsvFileProcessingController extends Controller
         }
         Storage::disk('local')->delete('file.csv');
 
-        return response()->json(['result'         => $result,
-                                 'is_person_file' => $is_person_file,
-                                 'is_group_file'  => $is_group_file,
+        return response()->json([
+            'result'         => $result,
+            'is_person_file' => $is_person_file,
+            'is_group_file'  => $is_group_file,
         ]);
     }
 
@@ -72,5 +75,19 @@ class CsvFileProcessingController extends Controller
     {
         $person = Person::find($csv_person_id);
         return !empty($person);
+    }
+
+    public function isGroupRecord($csv_group_id)
+    {
+        $group = Group::find($csv_group_id);
+        return !empty($group);
+    }
+
+    public function updateRecord($model, $cleaned_row)
+    {
+        $found_object = $model::find($cleaned_row['id']);
+        unset($cleaned_row['id']);
+        $found_object->update($cleaned_row);
+        return $cleaned_row;
     }
 }

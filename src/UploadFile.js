@@ -8,7 +8,10 @@ class UploadFile extends Component {
         super(props);
         this.state = {
             data: {},
-            file: null
+            file: null,
+            is_view_groups_list: false,
+            is_view_people_list: false,
+            view: null
         };
     }
 
@@ -49,6 +52,15 @@ class UploadFile extends Component {
         };
     };
 
+    toggleView(view) {
+        if (view === "people") {
+            this.setState({is_view_people_list: true});
+        }
+        if (view === "groups") {
+            this.setState({is_view_groups_list: true});
+        }
+    }
+
     render() {
         let message = this.state.file === null ? "Choose File to Upload" : this.state.file.name;
         let resultlist = null;
@@ -78,9 +90,12 @@ class UploadFile extends Component {
                         />
                     </Form.Field>
                     <Button type="submit">Upload</Button>
-                    <Button>View Groups</Button>
+                    <Button onClick={() => this.toggleView("groups")}>View Groups</Button>
+                    <Button onClick={() => this.toggleView("people")}>View People</Button>
                 </Form>
                 {resultlist}
+                {(this.state.is_view_groups_list) ? <GroupResultList needData={true}/> : ''}
+                {(this.state.is_view_people_list) ? <ResultsList needData={true}/> : ''}
             </Container>
         );
     }
